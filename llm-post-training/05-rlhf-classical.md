@@ -71,6 +71,16 @@ thought about safety.
 - When the reward signal is noisy / dense / online (e.g., agentic RL)
 - When you genuinely need exploration (not just imitation of preferences)
 
+## Credit assignment: PPO's underrated strength
+
+PPO's learned value baseline computes a **per-token advantage** via GAE —
+quietly doing credit assignment that GRPO's group-mean advantage skips.
+As trajectories grow longer (reasoning → agentic), GRPO's episode-level
+credit increasingly fails (the "echo trap"), driving renewed interest in
+critic-based or hindsight CA. See
+[arxiv 2604.09459](../papers/2604.09459-credit-assignment-rl-llms.md) and
+[08-agentic-tool-use.md](./08-agentic-tool-use.md#credit-assignment-in-agentic-rl).
+
 ## TRL support
 
 | Feature                                      | Added in   |

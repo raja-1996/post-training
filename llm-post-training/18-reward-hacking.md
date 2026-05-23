@@ -63,6 +63,9 @@ out a separate eval.**
   alongside the learned RM
 - **Reward model retraining** — collect adversarial examples from the
   current policy, retrain RM, repeat
+- **Min-form PRM credit** (PURE, Cheng et al. ICML 2025) — replace
+  $V(s_t)=\mathbb{E}[\sum r_{t'}]$ with $V(s_t)=\mathbb{E}[\min_{t'\geq t} r_{t'}]$
+  so the policy can't game intermediate steps by inflating an easy sum
 
 **Diversify the signal:**
 - Mix outcome and process rewards

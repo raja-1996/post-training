@@ -177,6 +177,103 @@ Open challenges:
 - Sandboxing tools safely during training rollouts
 - Cost — agentic rollouts are slow
 
+## Credit assignment in agentic RL
+
+The defining technical challenge of multi-turn agents. With $T\sim 100$
+turns and only a terminal reward, GRPO's episode-level credit produces
+the **"echo trap"** — agents converge to repetitive safe behavior because
+the gradient signal cannot distinguish productive from redundant actions.
+Zhang's 2026 survey [arxiv 2604.09459](../papers/2604.09459-credit-assignment-rl-llms.md)
+argues this isn't a quantitative extension of reasoning-RL: stochastic
+environments, partial observability, non-verifiable intermediate states,
+and heterogeneous action types genuinely *reshape* the CA problem.
+
+### Turn-level PRMs
+- **AgentPRM** — replaces MC step labelling with **TD+GAE** at turn
+  granularity; 8× more sample-efficient than MC-based PRM training; +19pp
+  over ORM on WebShop.
+- **SWEET-RL** (Meta/FAIR) — **privileged (asymmetric) critic** that sees
+  ground-truth answers and full future trajectories at training time only;
+  enables turn-level rewards on non-verifiable tasks like collaborative
+  coding (ColBench).
+- **Turn-PPO** — reformulates multi-turn RL as a turn-level MDP; each turn
+  is a macro-action with its own value function and importance ratio.
+- **SORL** — turn-level importance sampling + clipping-triggered
+  normalization for long-horizon off-policy stability.
+- **TARL** — LLM-as-judge turn-level adjudication; +6pp on τ-bench.
+- **ITPO** — implicit turn-level rewards from log-prob ratios
+  (no separate RM).
+
+### Hindsight / counterfactual (the distinctively agentic family)
+
+Three independent papers in **one week** of March 2026 — flagged in the
+survey as a community convergence:
+
+- **HCAPO** — post-trajectory hindsight: LLM critic generates
+  counterfactual continuations per turn and compares expected outcomes,
+  entirely in "imagination" (no environment re-execution).
+- **C3** — leave-one-out credit: $c_t = R(\tau) - R(\tau_{\setminus t})$;
+  also extends to multi-agent ($c_k$ across agents).
+- **CCPO** — structural causal model view; each turn is a treatment,
+  credit = average treatment effect via do-calculus.
+- **CriticSearch** — hindsight specifically for search agents with a
+  frozen asymmetric critic using gold answers + full trajectory.
+
+### Critic-free step-level
+- **GiGPO** (Group-in-Group PO) — nests step-level groups within
+  trajectory-level groups by anchor-state matching; critic-free.
+  **+12.6pp on ALFWorld, +9.1pp on WebShop vs GRPO.**
+- **POAD** (Policy Optimization with Action Decomposition) — Bellman with
+  Action Decomposition integrates intra-action (token) + inter-action
+  (turn) credit.
+- **CARL** — identifies bifurcation points by **action entropy**;
+  optimizes only highest-entropy actions. **72% fewer gradient updates,
+  no performance loss.**
+- **iStar** — implicit step rewards from trajectory-level DPO + multi-level
+  fusion (turn + token).
+- **IGPO** — turn credit as **information gain** about task success:
+  $c_t = \log P(\text{success}\mid h_{1:t}) - \log P(\text{success}\mid h_{1:t-1})$.
+
+### Hierarchical
+- **ArCHer** — pioneer two-level architecture: off-policy TD critic over
+  turns + on-policy actor over tokens-within-a-turn.
+- **PilotRL** — progressive coarse-to-fine: plan-level → step-level →
+  token-level RL stages.
+- **StepAgent** — IRL on expert demos to infer step rewards; novice-to-
+  expert curriculum.
+
+### Infrastructure
+- **Agent Lightning** (Microsoft) — LightningRL algorithm + execution/
+  training decoupling; drop-in for LangChain/AutoGen.
+- **SPA-RL** — lightweight MLP "progress estimator"; RUDDER-style
+  return decomposition.
+- **RAGEN/StarPO** — uncertainty-based filtering to escape the echo trap.
+
+### Multi-agent CA
+- **M-GRPO** — two-level: inter-agent (compare team compositions) +
+  intra-agent (standard GRPO).
+- **SHARP** — Shapley-based marginal credit across agents + global +
+  tool-process reward. **+23.7% over single-agent baselines.**
+- **MAPPA** — per-action AI-judge process rewards; **+16.7pp on data
+  analysis tasks.**
+- **Dr. MAS** — agent-wise advantage normalization (fixes the gradient-spike
+  divergence of naïve multi-agent GRPO).
+- **LLM-MCA** / **QLLM** — LLM-based centralized critics; QLLM has the
+  LLM *generate Python code* that computes credit (training-free).
+
+### Practical selection (from the survey's decision tree)
+
+| Setting | Suggested methods |
+|---|---|
+| Short reasoning (≤5K tokens) | GRPO, PURE, SPO, SPRO |
+| Long reasoning (>5K), limited compute | HICRA, CAPO, SPRO |
+| Long reasoning, generous compute | VinePPO, SCAR, CAPO |
+| Agentic, ≤30 turns, no aux model | GiGPO, CARL, iStar, POAD |
+| Agentic, ≤30 turns, with aux | AgentPRM, SWEET-RL |
+| Agentic, >30 turns, limited compute | CARL, HCAPO, ArCHer |
+| Agentic, >30 turns, generous compute | C3/CCPO, HCAPO, IGPO |
+| Multi-agent | M-GRPO, SHARP, MAPPA, Dr. MAS |
+
 ## Multi-environment trajectory RL
 
 Rather than one task at a time, train RL **across many tool-using
