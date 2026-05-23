@@ -12,6 +12,9 @@ The boring-but-essential layer underneath every post-training recipe.
 | **OpenRLHF**      | RLHF/PPO at scale, Ray-based                    |
 | **verl**          | RL framework focused on agentic/reasoning RL    |
 | **NeMo-Aligner**  | NVIDIA's enterprise alignment stack             |
+| **NeMo-RL**       | NVIDIA RL post-training: GRPO/DPO, vLLM + PyTorch/Megatron, single-GPU → 1000-GPU |
+| **NeMo-Skills**   | NVIDIA workflow glue: SDG + SFT + RL + eval, Slurm + Docker |
+| **NeMo-Gym**      | NVIDIA multi-environment RL library for agent training |
 | **Unsloth**       | Single-GPU SFT, very fast for small fine-tunes  |
 
 ## Distributed training building blocks
@@ -71,6 +74,24 @@ between sampling and training policies.
 This is increasingly relevant as RL becomes the dominant post-training
 stage (GRPO, R1-style reasoning) — sample efficiency depends directly on
 the sampler and trainer staying in lockstep.
+
+### End-to-end FP8 RL training (NVIDIA, 2026)
+
+A different angle on the same problem: apply **FP8 to both** generation
+(vLLM) and training (Megatron), rather than running them in different
+precisions. Done naively, the precision mismatch between engines is the
+biggest source of train/inference drift; matching them all the way down
+reduces it.
+
+- ~15–25% speedup on dense models; ~48% with FP8 KV cache + attention
+- Block-wise quantization (`[128, 128]` blocks, FP32 scales)
+- **Dynamic QKV scale recalibration** synced between training and
+  inference each step
+- Validation accuracy matches BF16 baselines when paired with importance
+  sampling correction
+- Token multiplicative probability error < 1.05 vs BF16
+
+Demonstrated on GRPO with Llama-3.1-8B and Qwen3-30B.
 
 ## Reproducibility headaches
 

@@ -24,6 +24,7 @@ picked which of two responses is better.
 | **ShareGPT**     | Scraped ChatGPT conversations    | Real user distribution      |
 | **UltraChat**    | Synthetic multi-turn dialogues   | Large scale                 |
 | **Tulu mixes**   | Curated blends (AI2)             | Strong open recipes         |
+| **Llama-Nemotron** | NVIDIA, ~30M synthetic (math+code heavy) | Math 19.8M / Code 9.6M; generated with Qwen + DeepSeek-R1 + Llama and majority-vote validation; fully open |
 
 ## Synthetic data generation
 

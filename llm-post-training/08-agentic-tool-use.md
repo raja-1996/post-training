@@ -64,6 +64,15 @@ Open challenges:
 - Sandboxing tools safely during training rollouts
 - Cost — agentic rollouts are slow
 
+## Multi-environment trajectory RL
+
+Rather than one task at a time, train RL **across many tool-using
+environments in parallel**. NVIDIA's NeMo-Gym (used for Nemotron 3) is
+one published instance: 21 environment configurations, ~1.2M rollouts,
+trajectory-based reinforcement. The hypothesis is that diversity of
+environments produces more robust, transferable agent behavior than
+deeper single-environment RL.
+
 ## Domains where agentic training matters
 
 - **Code agents** — SWE-Bench, Aider, Devin-style systems

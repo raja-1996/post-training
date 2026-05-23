@@ -36,6 +36,17 @@ The student matches the teacher's **full output distribution**, not just
 the sampled tokens. Richer signal but needs access to teacher logits and
 matching tokenizers.
 
+### Top-K logit KD with offline cache (NeMo-Aligner)
+A practical variant: cache only the **top-K teacher logits** (~100) once
+during preprocessing instead of storing full vocab. Train the student
+with forward-KL + cross-entropy. **Off-policy** but cheap:
+- No teacher GPU memory during training
+- ~70% of tokens needed vs plain SFT for the same accuracy
+- +7.4% HumanEval, +5.48% MATH at NVIDIA's reported scale (340B → 15B)
+
+Complements **on-policy** distillation (below) — the trade is
+data-efficiency (this) vs. distribution-match (on-policy).
+
 ### On-policy distillation
 The **student** generates a response. The teacher **scores or corrects**
 it. Closes the train/test distribution gap.

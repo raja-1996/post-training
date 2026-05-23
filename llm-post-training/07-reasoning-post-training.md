@@ -69,6 +69,27 @@ After enough RL with verifiable rewards, models start to:
 These aren't programmed in — they emerge because they're useful for
 reaching correct answers.
 
+## Switchable reasoning ("reasoning on/off" + thinking budget)
+
+A different paradigm from o1/R1's always-reasoning behavior: train the
+model so reasoning is **optional and controllable**. Used by NVIDIA's
+Llama-Nemotron and Nemotron Nano 2.
+
+- **Reasoning On/Off** — a system prompt (e.g. `/no_think`) flips the
+  model between chain-of-thought and direct-answer modes. Both modes are
+  trained explicitly (mixed reasoning-on / reasoning-off SFT data).
+- **Thinking budget** — client injects `</think>` to cap reasoning tokens.
+  Up to ~60% inference-cost reduction with minimal accuracy loss.
+- Useful when reasoning is expensive but only sometimes needed (agent
+  pipelines that mix easy and hard turns).
+
+## Progressive context-length RL
+
+Train GRPO at **growing context lengths** (e.g. 8K → 16K → 24K) rather
+than starting at full length. Reported by NVIDIA's NeMo-RL team
+reproducing the DeepScaleR recipe (Qwen-1.5B beat o1 on AIME 2024).
+Stabilizes early training and saves compute before scaling sequences out.
+
 ## Inference-time compute
 
 Reasoning post-training changes the **inference compute curve**: spending
