@@ -45,6 +45,22 @@ silent failure mode in practice.
 **LoRA** trains small "low-rank" adapter matrices alongside frozen weights.
 **QLoRA** adds 4-bit quantization of the base model on top.
 
+### LoRA practical recipe (Schulman et al., 2025)
+
+A systematic empirical study ("LoRA Without Regret") found that LoRA
+matches full fine-tuning when set up correctly. Key takeaways:
+
+- **Learning rate ~10× higher** than full FT
+- **Apply LoRA to all layers** — especially **MLPs / MoE layers**.
+  Attention-only LoRA underperforms even at matched parameter count
+- **Large batch sizes hurt LoRA more** than full FT (independent of rank)
+- For **RL post-training**, **rank-1 is often enough** — policy-gradient
+  methods carry only ~1 bit of info per episode, so RL is inherently
+  low-capacity
+- LoRA uses ~**2/3 the FLOPs** of full FT per pass
+- The 1/r scaling in `W' = W + (α/r)BA` makes optimal LR ~rank-independent
+  early in training
+
 ## Practical SFT engineering
 
 - **Sequence packing** — concatenate short examples to fill context, big throughput win

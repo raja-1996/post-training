@@ -42,6 +42,36 @@ The boring-but-essential layer underneath every post-training recipe.
 | GRPO reasoning RL of 7B       | 32–128× A100/H100              |
 | Anything at frontier scale    | Thousands of accelerators      |
 
+## Training-inference numerical consistency
+
+A subtle but important post-training infra concern: your **inference engine**
+(vLLM, TGI, custom) and your **training forward pass** often produce
+slightly different logits for the same input. Why this matters:
+
+- In on-policy RL (PPO, GRPO), the sampler and the trainer **must agree**
+  on logprobs; if they don't, "on-policy" silently becomes off-policy
+- Standard mitigation is **importance-weighted correction** — adds bias
+  and variance you didn't ask for
+- Root cause is often **batch-size-dependent kernels** — reduction order,
+  tile sizes, and split strategies all change with the batch dimension,
+  so the same input produces different output at batch=1 vs batch=64
+
+### Batch-invariant kernels (Thinking Machines, 2025)
+
+"Defeating Nondeterminism in LLM Inference" showed you can fix this with:
+- Fixed reduction strategies (no batch-dependent ordering)
+- Consistent matmul tile sizes
+- Fixed-size split strategies in attention
+- Pre-computed KV-cache layouts so cached and current tokens reduce identically
+
+Cost: ~**20% slower matmul**, ~**2× slower throughput overall**. Benefit:
+**bitwise-identical inference**, and truly on-policy RL with **zero KL**
+between sampling and training policies.
+
+This is increasingly relevant as RL becomes the dominant post-training
+stage (GRPO, R1-style reasoning) — sample efficiency depends directly on
+the sampler and trainer staying in lockstep.
+
 ## Reproducibility headaches
 
 - Random seeds rarely fully reproducible at scale

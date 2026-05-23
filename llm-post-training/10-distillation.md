@@ -40,6 +40,25 @@ matching tokenizers.
 The **student** generates a response. The teacher **scores or corrects**
 it. Closes the train/test distribution gap.
 
+A recent specific recipe (Thinking Machines, 2025) makes this concrete:
+
+- Sample trajectories from the student
+- Score **each token** by reverse KL to the teacher's distribution
+- Train on per-token KL — a **dense** signal (O(N) bits per episode)
+  vs RL's sparse final reward (O(1) bits per episode)
+
+Reported results on math reasoning:
+- **7–10× faster** than RL to reach the same policy
+- ~**50–100× cumulative compute savings**
+- ~74% on AIME'24 at ~1,800 GPU-hours (RL needed ~18,000)
+- **Multi-epoch training works** — RL would memorize the answer; on-policy
+  distillation learns the full distribution
+- Lets you **recover post-trained behaviors after domain SFT**, enabling
+  continual learning without expensive re-RL
+
+The intuition: RL is expensive because it searches the strategy space.
+Once a good strategy exists in a teacher, distillation just transfers it.
+
 ### Reasoning distillation
 Specifically: copy the teacher's **long chains of thought**. R1's released
 distilled variants (R1-Distill-Llama, R1-Distill-Qwen) showed this works
