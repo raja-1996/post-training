@@ -39,8 +39,27 @@ This makes DPO **orders of magnitude cheaper** than RLHF.
 | **CPO**  | Combines DPO loss with an SFT-style term                |
 | **sDPO** | Stepwise / staged DPO with multiple reference updates   |
 | **R-DPO**| Robust variant against noisy preferences                |
+| **GPO**  | Generalized Preference Optimization — unified framework spanning DPO/IPO/KTO/SLiC |
 
 Each fixes a specific DPO pain point.
+
+## Offline vs online preference optimization
+
+Most of the table above is **offline / off-policy**: the preference pairs were
+collected before training and are reused. A separate line of work keeps the
+preference interface but moves data refresh toward the **current policy**:
+
+- **Online DPO** — sample fresh responses from the current policy each step
+  and judge them with an RM (or AI judge)
+- **Fast–Slow Chasing Online DPO** (Qi et al., 2024)
+- **Count-based exploration for online preference alignment** (Bai et al., 2025)
+- The "Crucial Role of Samplers in Online DPO" (Shi et al., 2025) study
+
+These sit between offline DPO and full RLHF/RLVR. They reshape the policy on
+its own rollout distribution rather than on a frozen offline candidate set —
+useful when offline preference pairs fail to surface the model's actual
+rollout failures. See [arxiv 2604.07941 §5.2](../papers/2604.07941-post-training-unified-view.md)
+for the unified-view framing.
 
 ## GRPO — Group Relative Policy Optimization
 

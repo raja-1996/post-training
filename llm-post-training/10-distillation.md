@@ -75,6 +75,26 @@ Specifically: copy the teacher's **long chains of thought**. R1's released
 distilled variants (R1-Distill-Llama, R1-Distill-Qwen) showed this works
 remarkably well — small models inherit much of the reasoning behavior.
 
+### 2026 on-policy distillation variants
+
+The on-policy distillation idea has spawned a cluster of follow-ups:
+
+- **Self-Distilled Reasoner** (Zhao et al., 2026) — one LLM acts as both
+  teacher and student, teacher conditioned on privileged information
+- **Black-Box On-Policy Distillation** (Ye et al., 2025) — works when teacher
+  logits are unavailable (API-only teachers)
+- **On-Policy Context Distillation** (Ye et al., 2026)
+- **CRISP** (Sang et al., 2026) — compressed reasoning via iterative
+  self-policy distillation
+- **Learning Beyond Teacher** (Yang et al., 2026) — generalized on-policy
+  distillation with reward extrapolation, can in principle exceed the teacher
+- **Reinforcement-aware Knowledge Distillation** (RLAD, 2026) — distillation
+  loss aware of the downstream RL objective
+
+A complementary survey of on-policy distillation: [arxiv 2604.00626](https://arxiv.org/abs/2604.00626)
+formalizes it as f-divergence minimization with three design axes (what to
+optimize, where the signal comes from, how to stabilize training).
+
 ## Domain specialization via distillation
 
 Distill a generalist teacher's behavior on a narrow domain into a small

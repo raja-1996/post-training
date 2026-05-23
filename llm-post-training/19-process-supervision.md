@@ -97,11 +97,33 @@ them.
 ## Process supervision beyond math
 
 - **Code** — per-step labels: did this edit improve test pass-rate?
+  See **Process Supervision-Guided Policy Optimization for Code Generation**
+  (Dai et al., 2024).
 - **Agents** — per-action labels: did this tool call move toward the goal?
+  **AgentPRM** (Xi et al., 2025) trains process reward models for LLM agents.
+- **SQL** — **Reward-SQL** (Zhang et al., 2025) — stepwise reasoning with
+  process-supervised rewards for text-to-SQL
 - **Writing** — paragraph-level quality scores
 - **Reasoning over long documents** — per-claim citation correctness
 
 Each domain needs its own definition of "step" and its own labeling pipeline.
+
+## Beyond static PRMs
+
+Newer process-supervision work moves past one-shot PRM training:
+
+- **Rewarding Progress** (Setlur et al., 2025) — scaling automated process
+  verifiers; trains verifiers to predict eventual success probability rather
+  than per-step "good/bad"
+- **Critique-GRPO** (Zhang et al., 2025) — combines natural-language critique
+  with numerical reward as step-level feedback
+- **Search/Verify/Feedback** survey (Guan et al., [arxiv 2411.11504](https://arxiv.org/abs/2411.11504))
+- **PRM survey** (Zheng et al., [arxiv 2510.08049](https://arxiv.org/abs/2510.08049))
+
+The unified-view survey [arxiv 2604.07941 §5.3](../papers/2604.07941-post-training-unified-view.md)
+frames process supervision as "**fine-grained learner-state reshaping**" —
+denser credit assignment than terminal reward, but still subject to the same
+verifier-mismatch and proxy-overoptimization failure modes.
 
 ## TRL support
 

@@ -1,0 +1,2 @@
+# Intermediate text extracts from PDFs (regeneratable via pdftotext).
+*.txt
