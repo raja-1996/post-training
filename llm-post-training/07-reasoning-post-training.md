@@ -84,6 +84,30 @@ This is a new axis of scaling, complementing parameter and data scaling.
 - Distillation — copying R1's behavior into smaller models works surprisingly well
 - Reward hacking when verifiers are imperfect
 
+## TRL support
+
+The reasoning-RL stack landed in TRL roughly in the v0.14 → v1.x window:
+
+| Feature                                     | Added in     |
+|---------------------------------------------|--------------|
+| `GRPOTrainer`                               | v0.14        |
+| `PRMTrainer` (process reward model)         | v0.13 / v0.14|
+| Reasoning reward function (math eval)       | v0.26        |
+| **Dr. GRPO** loss variants                  | v0.17        |
+| GRPO scaling to 70B+ (multi-node vLLM + NCCL)| v0.16       |
+| **DAPO** loss                               | v0.22        |
+| **GSPO** (sequence-level GRPO)              | v0.20        |
+| **GSPO-token**                              | v0.24        |
+| **GFPO** loss                               | v0.24 / v0.25|
+| **CISPO** (ScaleRL)                         | v0.26        |
+| **SAPO** (soft gating)                      | v0.26        |
+| **GDPO** (group reward-decoupled norm)      | v0.27        |
+| **TIS** (truncated importance sampling)     | v0.23        |
+| **DFT** (dynamic fine-tuning loss)          | v0.23        |
+| Async GRPO (decoupled gen / gradient)       | v1.0         |
+| **VESPO**, **DPPO**, **SDPO** (experimental)| v1.0         |
+| GRPO agent training with tools              | v0.26        |
+
 ## What to learn next
 
 - DeepSeek-R1 paper

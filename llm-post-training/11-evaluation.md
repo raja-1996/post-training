@@ -67,6 +67,18 @@ Using a strong model to grade other models. Useful but biased:
 Mitigations: rubrics, pairwise instead of pointwise, swap positions, use
 multiple judges, calibrate against humans.
 
+## TRL support (judges)
+
+TRL ships several judge utilities used inside online preference methods
+and as evaluation callbacks:
+
+| Judge / Feature                              | Added in   |
+|----------------------------------------------|------------|
+| WinRate LLM-as-judge callback                | v0.10      |
+| Pairwise judges for online methods           | v0.12      |
+| Soft judges for PairRM                       | v0.12      |
+| `AllTrueJudge` (mixture of judges)           | v0.13      |
+
 ## What to learn next
 
 - HELM (Holistic Eval of Language Models)

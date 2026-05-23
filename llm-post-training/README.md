@@ -49,6 +49,7 @@ one that **follows instructions, reasons, uses tools, and refuses harm**.
 | 11 | [evaluation](./11-evaluation.md)                     | Benchmarks and judging                 |
 | 12 | [infrastructure](./12-infrastructure.md)             | Frameworks and compute                 |
 | 13 | [frontier](./13-frontier.md)                         | Open problems                          |
+| 14 | [trl-library](./14-trl-library.md)                   | TRL release timeline & algorithm history |
 
 ---
 

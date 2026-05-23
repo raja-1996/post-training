@@ -72,6 +72,21 @@ Open challenges:
 - **Research agents** — iterative search and synthesis
 - **Tool-using assistants** — calendars, email, APIs
 
+## TRL support
+
+| Feature                                          | Added in   |
+|--------------------------------------------------|------------|
+| **Text Environments** (early agent infra)        | v0.7       |
+| Tool support in data preprocessing utilities     | v0.13      |
+| Tools in `SFTTrainer` (JSON schema)              | v0.19      |
+| GRPO agent training with tools                   | v0.26      |
+| Tool-calling iteration limits in GRPO            | v0.27      |
+| Multimodal tool responses (VLMs)                 | v1.1       |
+| Tool-calling for LLaMA 3.1/3.2, DeepSeek-V3      | v1.2       |
+| Tool-calling for GPT-OSS, GLM-4-MoE, Qwen3-VL    | v1.1       |
+| Tool calls in `VLLMClient.chat()`                | v1.0       |
+| OpenEnv / OpenReward integrations                | v0.25 / v1.4|
+
 ## What to learn next
 
 - ReAct paper (Yao et al., 2022)

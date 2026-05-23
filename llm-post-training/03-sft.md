@@ -71,6 +71,23 @@ Mitigations:
 - **Knowledge regression** — base-model facts get worse
 - **Wrong-template inference** — silent quality degradation
 
+## TRL support
+
+| Feature                             | Added in        |
+|-------------------------------------|-----------------|
+| `SFTTrainer`                        | v0.4.2          |
+| QLoRA / 4-bit + bitsandbytes        | v0.4.2          |
+| FSDP + QLoRA                        | v0.8            |
+| VLM SFT (Llava)                     | v0.8.2          |
+| Native VLM SFT                      | v0.22           |
+| Tools in SFT (JSON schema)          | v0.19           |
+| Assistant-only training             | v0.19           |
+| FFD packing                         | v0.19           |
+| BFD packing                         | v1.0            |
+| Padding-free SFT                    | v0.16           |
+| Chunked CE loss (-50% VRAM)         | v1.4            |
+| Liger kernel integration            | v0.18 / v0.22   |
+
 ## What to learn next
 
 - Llama-3 / Mistral / Qwen instruct recipes

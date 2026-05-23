@@ -63,6 +63,18 @@ you can skip the RM entirely and use a **programmatic checker**. This is
 the foundation of o1- and R1-style reasoning training and largely sidesteps
 reward hacking — when applicable.
 
+## TRL support
+
+| Feature                                  | Added in     |
+|------------------------------------------|--------------|
+| `RewardTrainer`                          | v0.4.2       |
+| WinRate LLM-as-judge callback            | v0.10        |
+| Pairwise judges for online methods       | v0.12        |
+| `AllTrueJudge` (mixture of judges)       | v0.13        |
+| `PRMTrainer` (process reward model)      | v0.13 / v0.14|
+| Async reward functions                   | v0.27        |
+| Reasoning reward function (math eval)    | v0.26        |
+
 ## What to learn next
 
 - InstructGPT paper (RM training section)

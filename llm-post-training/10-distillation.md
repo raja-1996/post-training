@@ -68,6 +68,18 @@ distillation of frontier closed models (directly or via permissively
 licensed teachers like Llama-3 and DeepSeek). Strong base models +
 high-quality teacher outputs = competitive open models.
 
+## TRL support
+
+| Trainer / Feature                              | Added in   |
+|------------------------------------------------|------------|
+| `GKDTrainer` (Generalized KD)                  | v0.11      |
+| Sequence-Level KD in GKD                       | v0.12      |
+| GKD/GOLD buffer + vLLM inference               | v1.0       |
+| `MiniLLM` trainer                              | v0.26      |
+| `GOLD` trainer                                 | v0.26      |
+| `DistillationTrainer` (on-policy KD)           | v1.1       |
+| `SSDTrainer` (Simple Self-Distillation, exp.)  | v1.2       |
+
 ## What to learn next
 
 - DistilBERT and original Hinton distillation paper

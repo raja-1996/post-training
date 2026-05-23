@@ -71,6 +71,18 @@ thought about safety.
 - When the reward signal is noisy / dense / online (e.g., agentic RL)
 - When you genuinely need exploration (not just imitation of preferences)
 
+## TRL support
+
+| Feature                                      | Added in   |
+|----------------------------------------------|------------|
+| `PPOTrainer` (original)                      | v0.1 era   |
+| Naive Pipeline Parallelism for big PPO       | v0.4.1     |
+| "10× PPO" with ZeRO-3                        | v0.8.2     |
+| Experimental `PPOv2Trainer`                  | v0.9.3     |
+| PPOv2 renamed to `PPOTrainer` (old deprecated)| v0.12     |
+| PPO Lite (reward scaling by batch std)       | v0.22      |
+| `PPOTrainer` moved to experimental           | v0.26      |
+
 ## What to learn next
 
 - InstructGPT paper (Ouyang et al., 2022)

@@ -78,6 +78,33 @@ unnecessary** for the preference-alignment problem. RL is making a
 comeback now — but for **reasoning** (file 07), where exploration
 genuinely helps.
 
+## TRL support
+
+| Algorithm / Feature       | Added in        |
+|---------------------------|-----------------|
+| **DPO** (`DPOTrainer`)    | v0.5            |
+| **IPO** (DPO loss type)   | v0.7.5          |
+| **cDPO**                  | v0.7.5          |
+| **KTO** (`KTOTrainer`)    | v0.8            |
+| **ORPO** (`ORPOTrainer`)  | v0.8.2          |
+| **CPO** (`CPOTrainer`)    | v0.8.2          |
+| **RLOO** (`RLOOTrainer`)  | v0.9.3          |
+| **BCO** loss              | v0.9.3          |
+| **TR-DPO, IRPO, Robust DPO, PNCA** | v0.9.3 |
+| **SimPO** (via CPO)       | v0.9.6          |
+| **EXO**                   | v0.9.6          |
+| **Online DPO**            | v0.10.1         |
+| **APO** (apo_zero/down)   | v0.10.1         |
+| **XPO** (`XPOTrainer`)    | v0.11           |
+| **NashMD** (`NashMDTrainer`) | v0.11        |
+| **WPO** (weighted PO)     | v0.12           |
+| **DiscoPOP**              | v0.13           |
+| **GRPO** (`GRPOTrainer`)  | v0.14           |
+| **AlphaPO** (via CPO)     | v0.22           |
+| **MPO** (mixed PO)        | v0.20           |
+| **TPO** (triple PO, exp.) | v1.3            |
+| Length-normalized DPO sigmoid | v1.4        |
+
 ## What to learn next
 
 - DPO paper (Rafailov et al., 2023)

@@ -57,6 +57,34 @@ The boring-but-essential layer underneath every post-training recipe.
 4. **Evals on every checkpoint** — catch regressions early
 5. **Save artifacts** — data hashes, config, seeds, exact code
 
+## Key TRL infrastructure features
+
+Beyond hosting most algorithms, TRL adds a steady stream of infra and
+memory tricks. A sample:
+
+| Feature                                       | Added in     |
+|-----------------------------------------------|--------------|
+| PEFT integration (20B+ on 24GB)               | v0.4         |
+| QLoRA / 4-bit                                 | v0.4.2       |
+| FSDP + QLoRA                                  | v0.8         |
+| FSDP2                                         | v0.20        |
+| Liger kernel integration                      | v0.18 / v0.22|
+| vLLM sleep mode (colocated GRPO/RLOO)         | v0.23 / v0.25|
+| Co-located vLLM with training                 | v0.18        |
+| Multi-node vLLM + NCCL (GRPO 70B+)            | v0.16        |
+| vLLM data parallelism (4× faster gen)         | v0.17        |
+| vLLM prefix caching, V1 engine                | v0.15 / v0.17|
+| Context Parallelism (long sequences)          | v0.23        |
+| FFD / BFD sequence packing                    | v0.19 / v1.0 |
+| Padding-free SFT                              | v0.16        |
+| Chunked CE loss (-50% VRAM)                   | v1.4         |
+| Chunked LM head for AsyncGRPO (-44× peak mem) | v1.1         |
+| `trl vllm-serve` (+ speculative decoding)     | v1.3         |
+| MFU helper functions                          | v1.4         |
+
+See also: [`14-trl-library.md`](./14-trl-library.md) for the full version
+timeline and algorithm-introduction order.
+
 ## What to learn next
 
 - HF TRL docs and examples
