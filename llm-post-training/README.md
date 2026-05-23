@@ -50,6 +50,11 @@ one that **follows instructions, reasons, uses tools, and refuses harm**.
 | 12 | [infrastructure](./12-infrastructure.md)             | Frameworks and compute                 |
 | 13 | [frontier](./13-frontier.md)                         | Open problems                          |
 | 14 | [trl-library](./14-trl-library.md)                   | TRL release timeline & algorithm history |
+| 15 | [long-context](./15-long-context.md)                 | Training to actually use 200K+ windows |
+| 16 | [agentic-coding](./16-agentic-coding.md)             | Real-codebase agents, SWE-Bench recipes |
+| 17 | [computer-use](./17-computer-use.md)                 | Screenshot → action, UI grounding       |
+| 18 | [reward-hacking](./18-reward-hacking.md)             | Specification gaming and mitigations    |
+| 19 | [process-supervision](./19-process-supervision.md)   | PRMs, step-level rewards                |
 
 ---
 
