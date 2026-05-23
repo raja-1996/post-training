@@ -86,12 +86,38 @@ Each failure mode maps to a specific training data gap.
 ## Evaluation
 
 - **OSWorld** — desktop OS tasks
-- **WebArena, VisualWebArena** — web navigation
-- **Mind2Web** — generalist web agent
+- **WebArena, VisualWebArena, WebVoyager** — web navigation
+- **Mind2Web, GAIA** — generalist web agent
 - **ScreenSpot** — pure grounding accuracy
-- **AndroidWorld** — mobile UI
+- **AndroidWorld, AppWorld** — mobile UI
+- **τ-bench** — tool-agent-user dialogue with policy compliance
+- **TheAgentCompany, OfficeBench, WorkArena** — realistic office workflows
+- **OmniACT, ScreenAgent, GUI-World** — broader cross-app/cross-OS tasks
 
 Grounding accuracy and end-to-end task success diverge — both matter.
+
+## Agentic foundation models for action
+
+A 2025–2026 shift highlighted in [arxiv 2604.00835](../papers/2604.00835-agentic-tool-use.md):
+rather than patching a text LLM with a vision encoder, **pretrain for action**.
+
+- **Magma** — multimodal model bridging UI navigation and robotic
+  manipulation; explicit Vision-Language-Action formulation
+- **ShowUI** — UI-guided visual token selection for high-resolution screens
+- **OmniParser** — pure vision-based screen parsing extracting structured
+  elements (no DOM dependency)
+- **Agent-S** — open agentic framework that learns cross-application tasks
+  from experience, "uses computers like a human"
+
+## RL-based computer-use recipes
+
+- **DigiRL** — offline-to-online RL for in-the-wild Android device control
+- **SEAgent** — computer-use agent with self-evolution: autonomously
+  explores an OS and curates its own instruction-tuning data
+- **OS-Copilot** — generalist computer-use framework
+- **Cradle** — general computer control via screen observation + keyboard
+  /mouse emulation
+- **MGPO** — multi-turn grounding-based RL for high-resolution visual reasoning
 
 ## Safety considerations specific to computer use
 

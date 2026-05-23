@@ -13,7 +13,36 @@ Tool use looks like text but has hidden structure:
 
 A model that's been SFT'd only on chitchat will not robustly use tools.
 
-## Function-calling training
+## The three-paradigm taxonomy (Hu et al., 2026)
+
+Hu et al.'s 2026 survey [arxiv 2604.00835](../papers/2604.00835-agentic-tool-use.md)
+organizes the field by **where the optimization signal comes from**:
+
+| Paradigm                        | Signal                          | Weights touched | Core challenge                             |
+|---------------------------------|----------------------------------|------------------|---------------------------------------------|
+| **I. Prompting (plug-and-play)** | in-context (instructions, demos, observations) | No | brittle on long tasks; high token cost     |
+| **II. Supervised tool learning** | labeled/synthetic SFT data       | Yes (SFT)        | building large, high-quality tool datasets |
+| **III. Reward-driven policy**    | environmental reward / RL        | Yes (RL)         | credit assignment across long tool chains  |
+
+Evaluation is a fourth, orthogonal dimension (see §Eval below). The three
+paradigms are **complementary** — production systems combine all three.
+
+## Paradigm I: Prompting plug-and-play
+
+Frozen LLM coordinates tools via prompts and observation feedback. Three
+sub-styles:
+
+- **Interleaved reasoning + action** — ReAct (Yao et al., 2022), Reflexion,
+  Self-Refine, Chain-of-Verification, CRITIC, LATS (ReAct + tree search)
+- **Decoupled plan + execute** — ReWOO (planner/worker), LLMCompiler
+  (dependency-aware parallel calls), AdaPlanner, Plan-and-Solve,
+  HuggingGPT, TaskMatrix.AI
+- **Program-aided reasoning** — PAL, PoT, Logic-LM, ViperGPT,
+  Code-as-Policies, MathPrompter, LATM ("LLMs as tool makers"), CREATOR
+
+Cheap, no fine-tuning. Brittle on multi-step or long-horizon tasks.
+
+## Function-calling training (Paradigm II)
 
 The minimum viable version:
 - Define tools with name, description, and JSON schema
@@ -22,6 +51,54 @@ The minimum viable version:
 - SFT on those traces
 
 This is now table-stakes for any "instruct" model.
+
+### Synthetic data pipelines for tool training
+
+Most open tool-trained models depend on one of these data sources:
+
+| Pipeline | Key idea |
+|---|---|
+| **Toolformer** (Schick et al., 2023) | Self-supervised: keep a tool call iff inserting its result *reduces* next-token loss |
+| **ToolAlpaca** | Teacher-LLM-generated synthetic demonstrations |
+| **ToolLLM / ToolBench** | Instruction tuning over 16,000+ real REST APIs |
+| **APIGen** | Multi-stage pipeline producing **executable, verified** function-call data |
+| **ToolACE** | Self-evolving API augmentation + dialogue synthesis + hierarchical validation |
+| **AutoAct** | Auto-synthesized planning trajectories for tool-augmented QA |
+| **Confucius** | Introspective-feedback synthesis with easy-to-difficult curriculum |
+| **Agent-FLAN** | Decomposes agent capability into format-following + reasoning, uses negatives to suppress hallucinated actions |
+| **AgentTuning** | Mixes agent supervision with general data to preserve generalist competence |
+
+Trend across these: trajectory generation → verifiable function-call quality
+→ curriculum / introspection → fully self-evolving agents.
+
+### Tool-call formats and schemas
+
+- **Schema-constrained function calling** — JSON-with-signature; the canonical
+  evaluation is **BFCL** (Berkeley Function-Calling Leaderboard)
+- **REST APIs** — ToolLLM/ToolBench's primary format
+- **Code as action space** — PAL/PoT/CodeAct treat Python as the universal tool
+- **Token-level tool embeddings** — ToolkenGPT represents tools as vocabulary
+  tokens instead of textual schemas (avoids context blow-up)
+- **Compressed docs** — EasyTool transforms verbose tool documentation into
+  token-efficient form
+- **MCP (Model Context Protocol)** — the emerging cross-vendor standard for
+  agent ↔ tool integration; reduces N×M custom integrations to N+M
+
+### Process-oriented and alignment SFT
+
+Internalize the *reasoning process*, not just call correctness:
+
+- **FireAct** — SFT on full ReAct-style trajectories rather than IO pairs
+- **ToRA** — interleaved rationale + tool-call training for math
+- **Masked Thought** — recover masked spans of reasoning chains; reduces
+  surface-pattern matching
+- **RAFT** — train to distinguish relevant from distractor retrieved docs
+- **MetaTool** — train models to decide *whether* a tool is needed at all
+- **ToolAlign** — H2A principle (helpfulness, harmlessness, autonomy)
+- **ToolSword** — adversarial scenarios (prompt injection)
+- **RoT** — robustness under noisy or imperfect tool documentation
+- **Lemur / AgentTuning** — preserve generalist competence alongside
+  agentic SFT
 
 ## ReAct-style traces
 
@@ -50,14 +127,50 @@ Real agents don't get one shot. They:
 Training data must reflect long, messy trajectories — not just clean
 single-shot calls.
 
-## Trajectory-level RL
+## Paradigm III: Reward-driven tool policy learning
 
-The natural next step: treat the **whole trajectory** (multiple tool calls,
-observations, final answer) as one episode and apply RL to it.
+Treat the **whole trajectory** (multiple tool calls, observations, final
+answer) as one RL episode.
 
 - Reward at the end (did the agent solve the task?)
 - Credit assignment over many tokens and turns
 - Often uses GRPO or PPO variants
+
+### Reward designs that have worked
+
+| Reward shape | Representative method |
+|---|---|
+| Outcome-only (correct answer) | **ToolRL** ("Reward is all tool learning needs"); **Search-R1** |
+| Outcome + selectivity penalty | **ReTool** — reward correctness *and* discourage unnecessary tool calls |
+| Process reward modeling | **AgentPRM** — score promise/progress of intermediate steps |
+| Process + outcome blend | **LeTS** — joint reasoning + retrieval |
+| Trajectory-level reward infra | **RLFactory**, **VerlTool** |
+| Specialized tool-outcome RM | **ToolRM** — reward models for tool-call efficiency/correctness |
+| Curriculum / hard-sampling | **ToolExpander**, **Agent0** (ADPO) — auto-curriculum |
+| Role-distributed rewards | **MATPO** — multi-agent tool-integrated PO with planner/worker roles |
+| Reflection-as-action | **Agent-R** — make critique an explicit RL action |
+
+### End-to-end multi-turn policy learning
+
+- **Search-R1** — RL induces query reformulation and synthesis from sparse
+  outcome rewards (search agent)
+- **SimpleTIR** — unified end-to-end RL loop over reasoning + tool execution
+- **Retroformer / TRICE** — retrospective learning and credit assignment
+  across long tool chains
+- **RAGEN** — self-evolving from reflective revision of past trajectories
+
+### Holistic agentic frameworks
+
+- **VerlTool** — agent system (memory + tool selector + LLM) updated as a
+  unified policy
+- **DeepAgent** — autonomous memory folding compresses past interactions
+  into structured episodic memory
+- **AgentRL** — async generation-training pipeline, unified function-call
+  API, centralized environment controller for scalable multi-task training
+- **Agent Q** — guided MCTS + self-critique; learns from successful *and*
+  failed trajectories via self-play
+- **GEPO** — builds a state-transition graph from experience, uses graph
+  centrality to guide exploration
 
 Open challenges:
 - Sparse rewards over very long horizons
@@ -80,6 +193,43 @@ deeper single-environment RL.
 - **Computer use** — screenshot → action loops
 - **Research agents** — iterative search and synthesis
 - **Tool-using assistants** — calendars, email, APIs
+
+## Evaluation (three layers)
+
+Hu et al.'s survey organizes agent benchmarks into three layers:
+
+1. **Tool-usage correctness** — does the model produce a valid, well-typed
+   tool call?
+   - **BFCL** (function-call validity), **ToolEyes**, **T-Eval** (step-wise)
+   - **API-Bank**, **StableToolBench**, **Gorilla** (selection/retrieval)
+   - **When2Call**, **WTU-Eval** (decide *whether* to invoke)
+   - **NESTFUL**, **NexusRaven** (nested/compositional calls)
+2. **Task completion** — math/QA (HotpotQA, ToolQA, FreshQA), programming
+   (HumanEval, MBPP, SWE-Bench, BigCodeBench), scientific/professional
+   (SciBench, MedAgent-Bench, ChemCrow)
+3. **Tool-driven interaction**:
+   - **Web**: WebArena, VisualWebArena, WebVoyager, GAIA, Mind2Web,
+     TravelPlanner
+   - **Computer/OS/mobile**: OSWorld, AndroidWorld, AppWorld, OSCopilot,
+     **τ-bench** (tool-agent-user with policy compliance),
+     TheAgentCompany, WorkArena, OfficeBench
+   - **Safety/reliability**: ToolEmu (sandboxed risky-action emulation),
+     ToolSword, InjEcT-Agent (indirect prompt injection), R-Judge
+
+## Future directions (from the survey)
+
+1. **MCP / standardization** — universal protocol so each tool integrates
+   once, agents reuse it everywhere
+2. **Agentic foundation models** — Vision-Language-Action models pretrained
+   for action (Magma, ShowUI, OmniParser, Agent-S) replacing patched LLM+UI
+3. **Continuous evolution** — Titans-style test-time memory, evolving tool
+   libraries (Trove), self-curated training (SEAgent, Agent0)
+4. **Safety against indirect prompt injection** — programmable guardrails
+   (NeMo Guardrails), adversarial input detection (PromptArmor),
+   sandboxed execution
+5. **Human–agent symbiosis** — multi-agent orchestration (MetaGPT, AutoGen,
+   OpenDevin); counter-trend: **Agentless** shows simple pipelines can beat
+   complex long-horizon agents when task structure is clear
 
 ## TRL support
 

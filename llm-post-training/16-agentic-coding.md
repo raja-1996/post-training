@@ -37,6 +37,12 @@ investigation, the failed attempts, the recovery.
 - **Self-generated** — the model solves problems, verifier filters by
   test pass; survivors train the next iteration
 
+General tool-use data pipelines like **APIGen** (verifiable function-call
+data) and **Toolformer** (self-supervised tool-call annotation via
+loss-reduction) inform the coding-agent variants — see
+[08-agentic-tool-use](./08-agentic-tool-use.md) and the survey at
+[arxiv 2604.00835](../papers/2604.00835-agentic-tool-use.md).
+
 ## SWE-Bench and friends
 
 The benchmark suite that drove the field:

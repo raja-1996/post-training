@@ -41,6 +41,24 @@ Evaluation is its own deep problem.
 - **JailbreakBench** — adversarial prompts
 - **TruthfulQA** — honesty under misleading framing
 
+### Agent / tool use (three layers, Hu et al., 2026)
+
+See the survey [arxiv 2604.00835](../papers/2604.00835-agentic-tool-use.md)
+for the full taxonomy. Layered evaluation:
+
+- **Tool-call correctness**: **BFCL**, ToolEyes, T-Eval, API-Bank,
+  StableToolBench, NexusRaven, NESTFUL, When2Call, WTU-Eval
+- **Task completion**: AgentBench, SWE-Bench, BigCodeBench, ToolQA, GAIA,
+  SciBench, MedAgent-Bench
+- **Tool-driven interaction**: WebArena / VisualWebArena, OSWorld,
+  AndroidWorld, Mind2Web, **τ-bench** (policy compliance), TheAgentCompany,
+  ToolEmu (sandboxed risky actions), ToolSword, InjEcT-Agent (prompt
+  injection)
+
+A common pitfall: scoring well on layer 1 (the call is valid) while
+failing layer 2 (the task didn't complete) or layer 3 (the agent broke
+something on the way).
+
 ## Common pitfalls
 
 - **Contamination** — test data in training data, inflates scores
