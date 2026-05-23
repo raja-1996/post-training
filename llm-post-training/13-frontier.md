@@ -77,6 +77,27 @@ to months. The drivers:
 - Verifiable rewards democratizing reasoning RL
 - Compute still favoring frontier labs
 
+### Notable 2025–2026 frontier recipes
+
+| Model / system            | Distinctive post-training move                                         |
+|---------------------------|------------------------------------------------------------------------|
+| **DeepSeek-R1**           | SFT cold-start → GRPO RLVR → rejection-sampled SFT → alignment RL → distill |
+| **Llama-3 Herd**          | SFT + DPO + reward modeling stages, extensive data curation            |
+| **Tulu-3**                | Open recipe: SFT + DPO + RLVR; reproducible end-to-end                 |
+| **Kimi K2**               | Agentic intelligence post-training, long-horizon tool use              |
+| **DeepSeek-V3.2**         | Multi-stage pipeline; further RLVR + agentic refinement                |
+| **GLM-5**                 | "Vibe coding" → "agentic engineering"; coding-agent post-training      |
+| **MiMo-V2-Flash**         | Efficient post-training pipeline for small reasoning models            |
+| **Nemotron-Cascade 2**    | Cascade RL + multi-domain on-policy distillation                       |
+| **AgentArk**              | Distill multi-agent intelligence into a single-LLM agent               |
+
+The shared structural pattern (see [arxiv 2604.07941](../papers/2604.07941-post-training-unified-view.md)):
+**expansion stage** (SFT or specialist synthesis) → **reshaping stage**
+(RL / preference optimization / verifier-guided correction) → **consolidation
+stage** (distillation, merging, or replay). The interesting differences are
+*which interface* each stage uses and *which behavior must survive* the
+handoff.
+
 ## 9. What "alignment" even means at AGI-adjacent capability
 
 The current alignment toolkit was built for chatbots. As models become

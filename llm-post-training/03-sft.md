@@ -86,6 +86,38 @@ Mitigations:
 - **Mode collapse** — short, generic, hedging answers
 - **Knowledge regression** — base-model facts get worse
 - **Wrong-template inference** — silent quality degradation
+- **Exposure mismatch** — teacher-forced training prefixes diverge from
+  learner-rollout prefixes at deployment (the scheduled-sampling / DAgger
+  problem). The structural blind spot of off-policy SFT, motivating
+  on-policy follow-ups.
+
+## Model-aware / distribution-aware SFT (2025–2026)
+
+A growing line of work redesigns SFT so that supervision is shaped to the
+**learner's current distribution** rather than treating SFT as vanilla
+likelihood maximization. The survey [arxiv 2604.07941](../papers/2604.07941-post-training-unified-view.md)
+calls this an emerging direction (Sec. 7.1.1).
+
+- **PRISM** (Zhao et al., 2026) — disentangles SFT and RL data via gradient
+  concentration, reducing interference between the two regimes
+- **Proximal SFT** (Zhu et al., 2026) — constrains policy drift during SFT
+- **Anchored SFT** (Zhu et al., 2026) — preserves anchoring to base-model
+  behavior, reducing collateral capability loss
+- **Probability-based SFT objectives** (Li et al., 2025) — moves beyond
+  log-likelihood for capability-matched supervision
+- **Self-Distillation Bridges Distribution Gap** (Yang et al., 2024) — uses
+  the model's own outputs to shrink the policy gap before SFT
+- **"Best Instruction-Tuning Data are Those That Fit"** (Zhang et al., 2025) —
+  selecting responses that match the model's existing distribution
+- **Mind the Gap / SFT data rewriting** (Zhao et al., 2025)
+- **Selective Self-to-Supervised Fine-Tuning** (Gupta et al., 2025)
+- **SFT generalization with reward rectification** (Wu et al., 2026) — RL
+  perspective on SFT generalization
+
+The shared theme: vanilla token-target SFT can both **expand** support (when
+demonstrations expose unreachable behaviors) and **reshape** the policy (when
+demonstrations only restyle reachable behaviors), and the two regimes need
+different supervision designs.
 
 ## TRL support
 

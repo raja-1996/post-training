@@ -105,6 +105,106 @@ This is a new axis of scaling, complementing parameter and data scaling.
 - Distillation — copying R1's behavior into smaller models works surprisingly well
 - Reward hacking when verifiers are imperfect
 
+## Credit assignment in reasoning RL
+
+A central technical question once you have RL working: **which tokens (or
+steps) deserve the credit for a correct final answer?** GRPO's group-mean
+advantage assigns the *same* signal to every token in a trajectory, which
+works when the model only makes a handful of decisive choices (short
+reasoning chains) but degrades as chain length grows. Zhang's 2026 survey
+[arxiv 2604.09459](../papers/2604.09459-credit-assignment-rl-llms.md)
+catalogues 47 methods that try to do better.
+
+### Token-level
+- **VinePPO** — replaces PPO's learned critic with Monte Carlo value
+  estimates by forking $K$ continuations from each token. Cheap because
+  LLM rollouts are cheap. Outperforms PPO on GSM8K/MATH — evidence that
+  *CA quality*, not optimization, is the bottleneck.
+- **RED** — probes a pre-trained RM's hidden states to predict per-token
+  marginal reward; zero extra RL.
+- **T-REG** — token-level reward regularization from contrasting
+  correct vs. incorrect generations.
+- **From r to Q\*** — DPO implicitly learns a token-level $Q$-function,
+  so credit information is "free" with preference training.
+
+### Segment-level
+- **SPO** (Segment Policy Optimization) — partitions reasoning at
+  semantic cutpoints and computes MC advantage per segment.
+- **TEMPO** — tree-structured CA with branch-gated TD corrections.
+- **SCAR** — Shapley values over reasoning segments as a "gold-standard"
+  credit reference (expensive: $2^n$ coalitions).
+
+### Step-level
+- **PURE** — replaces sum-form PRM credit $V(s_t)=\mathbb{E}[\sum r_{t'}]$
+  with **min-form** $V(s_t)=\mathbb{E}[\min r_{t'}]$ to prevent reward
+  hacking via "safe" intermediate steps.
+- **SPRO** — masked step advantage: $c_i = P(\text{correct}\mid\text{full}) -
+  P(\text{correct}\mid\text{full}\setminus\text{step}_i)$. **3.4× training
+  efficiency over GRPO.**
+- **CAPO** — uses the LLM itself as a GenPRM (natural-language critique
+  → scalar reward).
+- **HICRA** — focuses credit on **planning tokens** rather than uniformly;
+  exploits a two-phase learning dynamic (procedural skills → strategic
+  planning).
+- **PRL, InT, FinePO, ACPO** — entropy-regularized PRM derivation,
+  counterfactual interventions, sub-step PRM for visual reasoning,
+  attribution-based curriculum.
+
+The takeaway: PRMs are best understood as **credit assignment mechanisms**,
+not just a different RM family — see [19-process-supervision.md](./19-process-supervision.md).
+
+## Capability boundary: expansion vs elicitation
+
+A subtle but important 2025–2026 debate: when RLVR improves a model's
+reasoning, is it **expanding** the set of behaviors the model can reach
+(genuine new capability), or only **reshaping** the model's choice within
+already-latent capability (better elicitation)?
+
+- **"The Invisible Leash: Why RLVR May or May Not Escape Its Origin"**
+  (Wu et al., 2025) — uses pass@k at large k as a proxy. If the base model
+  can already produce the right answer at large k but RLVR shifts probability
+  toward it at low k, that's elicitation, not expansion.
+- **"Does RL Really Incentivize Reasoning Capacity Beyond the Base Model?"**
+  (Yue et al., 2025) — similar argument: RL frequently sharpens existing
+  ability rather than introducing new strategies.
+
+This is one of the most consequential open empirical questions for reasoning
+RL. The unified-view survey [arxiv 2604.07941](../papers/2604.07941-post-training-unified-view.md)
+treats this as the central diagnostic gap: distinguishing genuine support
+expansion from improved selection within existing effective support.
+
+## Guided on-policy learning (rollout-time scaffolds)
+
+A bridge between RLVR and SFT-style guidance: train with on-policy rollouts
+but inject hints, templates, or rubrics that nudge the rollout distribution
+toward useful regions:
+
+- **Self-Hinting LMs** (Liao et al., 2026)
+- **ExPO** (Zhou et al., 2025) — self-explanation-guided RL
+- **TemplateRL** (Wu et al., 2025) — structured template-guided RL
+- **HiPO** (Deng et al., 2026) — self-hint policy optimization for RLVR
+- **Rubric-Scaffolded RL** (Zhou et al., 2025)
+
+The mechanism: by altering what the learner repeatedly encounters in its own
+rollouts, you can selectively expand effective support beyond what unaided
+RL would reach.
+
+## Interleaved / unified SFT–RL
+
+Rather than the rigid `SFT → RL` pipeline, recent work softens or removes the
+boundary:
+
+- **SRFT** (Fu et al., 2026) — single-stage Supervised + Reinforcement FT
+- **UFT** (Liu/Farina/Ozdaglar, 2025) — Unifying Supervised and Reinforcement FT
+- **Interleaved Online FT for Hardest Questions** (Ma et al., 2026)
+- **Dynamic Weighting of SFT + RL** (Zhang et al., 2026)
+- **RePO** (Li et al., 2025) — replay-enhanced policy optimization
+
+Motivation: pure RL is unstable on tasks where the policy can't yet generate
+correct rollouts; mixing in off-policy supervision on the same step
+addresses that without the gradient-interference issues of a hard SFT→RL
+handoff.
+
 ## TRL support
 
 The reasoning-RL stack landed in TRL roughly in the v0.14 → v1.x window:

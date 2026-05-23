@@ -85,3 +85,13 @@ one that **follows instructions, reasons, uses tools, and refuses harm**.
 
 Modern frontier recipes (DeepSeek-R1, Llama-3 Instruct, Tulu-3, Qwen2.5)
 all variations on this skeleton, with reasoning-focused RL layered on top.
+
+---
+
+## Paper deep-dives
+
+Detailed summaries of individual surveys live in [`../papers/`](../papers/):
+
+- [2604.07941 — LLM Post-Training: A Unified View of Off-Policy and
+  On-Policy Learning](../papers/2604.07941-post-training-unified-view.md)
+  (Zhao et al., Apr 2026)

@@ -97,11 +97,67 @@ them.
 ## Process supervision beyond math
 
 - **Code** — per-step labels: did this edit improve test pass-rate?
+  See **Process Supervision-Guided Policy Optimization for Code Generation**
+  (Dai et al., 2024).
 - **Agents** — per-action labels: did this tool call move toward the goal?
+  **AgentPRM** (Xi et al., 2025) trains process reward models for LLM agents.
+- **SQL** — **Reward-SQL** (Zhang et al., 2025) — stepwise reasoning with
+  process-supervised rewards for text-to-SQL
 - **Writing** — paragraph-level quality scores
 - **Reasoning over long documents** — per-claim citation correctness
 
 Each domain needs its own definition of "step" and its own labeling pipeline.
+
+## PRMs as credit assignment
+
+A reframing argued in [arxiv 2604.09459](../papers/2604.09459-credit-assignment-rl-llms.md):
+**PRMs are not a separate "reward modelling" technique — they ARE a
+credit-assignment mechanism.** A PRM scoring each step $i$ with $r_i$ is
+performing step-level decomposition of the terminal reward $R(\tau)$.
+The PRM literature (Math-Shepherd, OmegaPRM) and the CA literature
+(VinePPO, SCAR) are two views of the same problem.
+
+Two consequences:
+
+1. PRM design is fundamentally about *credit*, so the same trade-offs
+   apply — finer granularity vs. computational cost, forward vs. hindsight
+   estimation, presence/absence of an auxiliary model.
+2. PRM-style supervision generalizes naturally beyond math: turn-level
+   PRMs for agents (AgentPRM, SWEET-RL), info-theoretic credit (IGPO),
+   counterfactual credit (HCAPO, C3, CCPO), and critic-free group
+   comparison (GiGPO, CARL).
+
+## Beyond static PRMs
+
+Newer process-supervision work moves past one-shot PRM training:
+
+- **Rewarding Progress** (Setlur et al., 2025) — scaling automated process
+  verifiers; trains verifiers to predict eventual success probability rather
+  than per-step "good/bad"
+- **Critique-GRPO** (Zhang et al., 2025) — combines natural-language critique
+  with numerical reward as step-level feedback
+- **PURE** (Cheng et al., ICML 2025) — replaces sum-form PRM credit with
+  **min-form** $V(s_t)=\mathbb{E}[\min_{t'\geq t} r_{t'}]$ to prevent
+  reward hacking via "safe" intermediate steps
+- **SPRO** (Fei et al., 2025) — masked step advantage as self-supervised
+  step credit; reports 3.4× training efficiency over GRPO
+- **PRL** (Yao et al., 2026) — derives the optimal process reward as the
+  advantage under entropy-regularized RL — first theoretical (not just
+  heuristic) PRM grounding
+- **InT** (Yang et al., 2026) — self-proposed counterfactual interventions
+  per step; high credit when intervention flips the outcome
+- **CAPO** (Xie et al., 2025) — LLM-as-GenPRM: same LLM critiques each step
+  in natural language, converted to scalar reward
+- **HICRA** (Wang et al., 2025) — focuses credit on **planning tokens**
+  rather than uniformly; identifies a two-phase learning dynamic (procedural
+  skills → strategic planning)
+- **Search/Verify/Feedback** survey (Guan et al., [arxiv 2411.11504](https://arxiv.org/abs/2411.11504))
+- **PRM survey** (Zheng et al., [arxiv 2510.08049](https://arxiv.org/abs/2510.08049))
+
+The unified-view survey [arxiv 2604.07941 §5.3](../papers/2604.07941-post-training-unified-view.md)
+frames process supervision as "**fine-grained learner-state reshaping**" —
+denser credit assignment than terminal reward, but still subject to the same
+verifier-mismatch and proxy-overoptimization failure modes.
 
 ## TRL support
 
