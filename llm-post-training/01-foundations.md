@@ -43,6 +43,7 @@ maximizing usefulness — and modern recipes have largely closed this gap.
 | Post-training | Instructions, preferences    | Mixed (SFT, RL) | Shape behavior & alignment |
 
 The line between mid- and post-training is fuzzy and shifting.
+See [02-mid-training.md](./02-mid-training.md) for a dedicated treatment.
 
 ## Taxonomy of post-training techniques
 
@@ -90,7 +91,7 @@ A third axis describes the **functional role** of each stage:
   (across stages, into smaller students, without scaffolds)
 
 Modern frontier recipes combine multiple regimes precisely because no single
-regime addresses all three roles. See [13-frontier.md](./13-frontier.md) for
+regime addresses all three roles. See [20-frontier.md](./20-frontier.md) for
 how this plays out in current recipes.
 
 ## What the rest of these notes cover

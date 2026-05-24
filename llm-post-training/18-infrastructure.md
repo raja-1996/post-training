@@ -133,7 +133,7 @@ memory tricks. A sample:
 | `trl vllm-serve` (+ speculative decoding)     | v1.3         |
 | MFU helper functions                          | v1.4         |
 
-See also: [`14-trl-library.md`](./14-trl-library.md) for the full version
+See also: [`19-trl-library.md`](./19-trl-library.md) for the full version
 timeline and algorithm-introduction order.
 
 ## What to learn next
