@@ -56,7 +56,9 @@ Post-training rides on architectural choices made earlier:
 - **Position interpolation** as a cheap extension trick
 
 These are technically pre-/mid-training concerns but constrain what
-post-training can achieve.
+post-training can achieve. See [02-mid-training.md](./02-mid-training.md)
+for how RoPE-rescaling and length extension fit into the broader
+mid-training axis.
 
 ## Evaluation
 

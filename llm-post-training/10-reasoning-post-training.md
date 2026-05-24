@@ -151,7 +151,7 @@ catalogues 47 methods that try to do better.
   attribution-based curriculum.
 
 The takeaway: PRMs are best understood as **credit assignment mechanisms**,
-not just a different RM family — see [19-process-supervision.md](./19-process-supervision.md).
+not just a different RM family — see [08-process-supervision.md](./08-process-supervision.md).
 
 ## Capability boundary: expansion vs elicitation
 

@@ -79,7 +79,7 @@ As trajectories grow longer (reasoning → agentic), GRPO's episode-level
 credit increasingly fails (the "echo trap"), driving renewed interest in
 critic-based or hindsight CA. See
 [arxiv 2604.09459](../papers/2604.09459-credit-assignment-rl-llms.md) and
-[08-agentic-tool-use.md](./08-agentic-tool-use.md#credit-assignment-in-agentic-rl).
+[13-agentic-tool-use.md](./13-agentic-tool-use.md#credit-assignment-in-agentic-rl).
 
 ## TRL support
 

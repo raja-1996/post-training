@@ -40,7 +40,7 @@ investigation, the failed attempts, the recovery.
 General tool-use data pipelines like **APIGen** (verifiable function-call
 data) and **Toolformer** (self-supervised tool-call annotation via
 loss-reduction) inform the coding-agent variants — see
-[08-agentic-tool-use](./08-agentic-tool-use.md) and the survey at
+[13-agentic-tool-use](./13-agentic-tool-use.md) and the survey at
 [arxiv 2604.00835](../papers/2604.00835-agentic-tool-use.md).
 
 ## SWE-Bench and friends

@@ -36,25 +36,26 @@ one that **follows instructions, reasons, uses tools, and refuses harm**.
 
 | #  | File                                                 | Topic                                  |
 |----|------------------------------------------------------|----------------------------------------|
-| 01 | [foundations](./01-foundations.md)                   | Why post-training exists; taxonomy     |
-| 02 | [data](./02-data.md)                                 | Instruction data, synthetic data       |
-| 03 | [sft](./03-sft.md)                                   | Supervised fine-tuning                 |
-| 04 | [reward-modeling](./04-reward-modeling.md)           | Learning human preferences             |
-| 05 | [rlhf-classical](./05-rlhf-classical.md)             | PPO-based RLHF (InstructGPT era)       |
-| 06 | [preference-optimization](./06-preference-optimization.md) | DPO, KTO, ORPO, GRPO, SimPO      |
-| 07 | [reasoning-post-training](./07-reasoning-post-training.md) | o1 / R1-style RL with verifiable rewards |
-| 08 | [agentic-tool-use](./08-agentic-tool-use.md)         | Function calling, agent training       |
-| 09 | [safety-alignment](./09-safety-alignment.md)         | Red-teaming, Constitutional AI, RLAIF  |
-| 10 | [distillation](./10-distillation.md)                 | Compressing big models into small ones |
-| 11 | [evaluation](./11-evaluation.md)                     | Benchmarks and judging                 |
-| 12 | [infrastructure](./12-infrastructure.md)             | Frameworks and compute                 |
-| 13 | [frontier](./13-frontier.md)                         | Open problems                          |
-| 14 | [trl-library](./14-trl-library.md)                   | TRL release timeline & algorithm history |
-| 15 | [long-context](./15-long-context.md)                 | Training to actually use 200K+ windows |
-| 16 | [agentic-coding](./16-agentic-coding.md)             | Real-codebase agents, SWE-Bench recipes |
-| 17 | [computer-use](./17-computer-use.md)                 | Screenshot → action, UI grounding       |
-| 18 | [reward-hacking](./18-reward-hacking.md)             | Specification gaming and mitigations    |
-| 19 | [process-supervision](./19-process-supervision.md)   | PRMs, step-level rewards                |
+| 01 | [foundations](./01-foundations.md)                         | Why post-training exists; taxonomy        |
+| 02 | [mid-training](./02-mid-training.md)                       | Annealing, capability injection, recipes  |
+| 03 | [data](./03-data.md)                                       | Instruction data, synthetic data          |
+| 04 | [sft](./04-sft.md)                                         | Supervised fine-tuning                    |
+| 05 | [reward-modeling](./05-reward-modeling.md)                 | Learning human preferences                |
+| 06 | [rlhf-classical](./06-rlhf-classical.md)                   | PPO-based RLHF (InstructGPT era)          |
+| 07 | [preference-optimization](./07-preference-optimization.md) | DPO, KTO, ORPO, GRPO, SimPO               |
+| 08 | [process-supervision](./08-process-supervision.md)         | PRMs, step-level rewards                  |
+| 09 | [reward-hacking](./09-reward-hacking.md)                   | Specification gaming and mitigations      |
+| 10 | [reasoning-post-training](./10-reasoning-post-training.md) | o1 / R1-style RL with verifiable rewards  |
+| 11 | [distillation](./11-distillation.md)                       | Compressing big models into small ones    |
+| 12 | [long-context](./12-long-context.md)                       | Training to actually use 200K+ windows    |
+| 13 | [agentic-tool-use](./13-agentic-tool-use.md)               | Function calling, agent training          |
+| 14 | [agentic-coding](./14-agentic-coding.md)                   | Real-codebase agents, SWE-Bench recipes   |
+| 15 | [computer-use](./15-computer-use.md)                       | Screenshot → action, UI grounding         |
+| 16 | [safety-alignment](./16-safety-alignment.md)               | Red-teaming, Constitutional AI, RLAIF     |
+| 17 | [evaluation](./17-evaluation.md)                           | Benchmarks and judging                    |
+| 18 | [infrastructure](./18-infrastructure.md)                   | Frameworks and compute                    |
+| 19 | [trl-library](./19-trl-library.md)                         | TRL release timeline & algorithm history  |
+| 20 | [frontier](./20-frontier.md)                               | Open problems                             |
 
 ---
 
